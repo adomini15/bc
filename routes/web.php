@@ -21,3 +21,7 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
 ->name('home');
+
+Route::get('/admin/appointments', [App\Http\Controllers\Admin\AppointmentsController::class, 'index'])
+->name('admin.appointments');
+
