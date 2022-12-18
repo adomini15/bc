@@ -14,6 +14,7 @@ class EditAppointmentForm extends Component
     public $currentPage = 1;
 
     public $_id;
+    public $customer_id;
     // Form properties
     public $firstname;
     public $lastname;
@@ -67,6 +68,7 @@ class EditAppointmentForm extends Component
 
     public function mount($appointment) {
         $this->_id = $appointment->id;
+        $this->customer_id = $appointment->customer_id;
         $this->firstname = $appointment->customer->firstname;
         $this->lastname = $appointment->customer->lastname;
         $this->email = $appointment->customer->email;
@@ -96,23 +98,27 @@ class EditAppointmentForm extends Component
 
         $this->validate($rules);
 
-        $customer = Customer::create([
-            'firstname' => $this->firstname,
-            'lastname' => $this->lastname,
-            'email' => $this->email,
-            'phone' => $this->phone,
-            'address' => $this->address,
-            'area' => $this->area,
-            'province' => $this->province,
-            'comment' => $this->comment
-        ]);
+        $customer = Customer::find($this->customer_id);
 
-        Appointment::create([
-            'taken_date' => $this->taken_date,
-            'beautician_id' => $this->beautician_id,
-            'service_id' => $this->service_id,
-            'customer_id' => $customer->id
-        ]);
+        $customer->firstname = $this->firstname;
+        $customer->lastname = $this->lastname;
+        $customer->email = $this->email;
+        $customer->phone = $this->phone;
+        $customer->address = $this->address;
+        $customer->area = $this->area;
+        $customer->province = $this->province;
+        $customer->comment = $this->comment;
+
+        $customer->save();
+
+
+        $appointment = Appointment::find($this->_id);
+
+        $appointment->taken_date = $this->taken_date;
+        $appointment->beautician_id = $this->beautician_id;
+        $appointment->service_id = $this->service_id;
+
+        $appointment->save();
 
         $this->reset();
         $this->resetValidation();
