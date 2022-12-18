@@ -25,3 +25,9 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
 Route::get('/admin/appointments', [App\Http\Controllers\Admin\AppointmentsController::class, 'index'])
 ->name('admin.appointments');
 
+Route::get('/admin/appointments/create', [App\Http\Controllers\Admin\AppointmentsController::class, 'create'])
+->name('admin.appointments.create');
+
+Route::get('/admin/appointments/{appointment}/edit', [App\Http\Controllers\Admin\AppointmentsController::class, 'edit'])
+->name('admin.appointments.edit');
+

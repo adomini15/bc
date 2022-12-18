@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
+use Illuminate\Http\Client\Request;
 
 class AppointmentsController extends Controller
 {
@@ -16,4 +17,15 @@ class AppointmentsController extends Controller
 
         return view('admin.appointments.index', compact('appointments'));
     }
+
+    public function create() {
+        return view('admin.appointments.create');
+    }
+
+    public function edit(Appointment $appointment) {
+        return view('admin.appointments.edit', [
+            'appointment' => $appointment
+        ]);
+    }
+ 
 }
