@@ -1,13 +1,13 @@
 @extends('adminlte::page')
 
-@section('title', 'Administrador - Citas')
+@section('title', 'Administrador - Clientes')
 
 @section('content_header')
     <div class="d-flex align-items-center justify-content-between">
-        <h1>Historial de Citas</h1>
-        <a class="btn btn-primary" href="{{ route('admin.appointments.create') }}">
+        <h1>Lista de Clientes</h1>
+        <a class="btn btn-primary" href="{{ route('admin.customers.create') }}">
             <i class="fas fa-plus"></i>
-            Nueva Cita
+            Nuevo Cliente
         </a>
     </div>
 @stop
@@ -21,48 +21,52 @@
 @section('content')
     <div class="card">
         <div class="card-body">
-            <table class="table table-striped table-bordered" id="appointments">
+            <table class="table table-striped table-bordered" id="customers">
                 <thead>
                     <tr>
                         <th>ID</th>
                         <th>Nombre del Cliente</th>
+                        <th>Email</th>
                         <th>Telefono</th>
-                        <th>Fecha de Cita</th>
-                        <th>Hora de Cita</th>
-                        <th>Tipo de Cita</th>
+                        <th>Dirección</th>
+                        <th>Provincia</th>
+                        <th>Sector</th>
                         <th>Accion</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    @foreach ($appointments as $appointment)
+                    @foreach ($customers as $customer)
                     <tr>
                         <td>
-                            {{ $appointment->id }}
+                            {{ $customer->id }}
                         </td>
                         <td>
-                            {{ $appointment->customer->firstname }} {{ $appointment->customer->lastname}}
+                            {{ $customer->firstname }} {{ $customer->lastname}}
                         </td>
                         <td>
-                            {{ $appointment->customer->phone }}
+                            {{ $customer->email }}
                         </td>
                         <td>
-                            {{ \Carbon\Carbon::parse($appointment->taken_date)->format('d/m/Y') }}
+                            {{ $customer->phone }}
                         </td>
                         <td>
-                            {{ \Carbon\Carbon::parse($appointment->taken_date)->format('g:i A') }}
+                            {{ $customer->address }}
                         </td>
                         <td>
-                            {{ $appointment->service->title }}
+                            {{ $customer->province }}
+                        </td>
+                        <td>
+                            {{ $customer->area }}
                         </td>
                         <td>
                             <div class="d-flex justify-content-around align-items-center">
-                                <a href="/admin/appointments/{{$appointment->id}}/edit" class="btn btn-info btn-sm">
+                                <a href="/admin/customers/{{$customer->id}}/edit" class="btn btn-info btn-sm">
                                     <i class="fas fa-edit"></i>
                                 </a>
                          
                          
-                                <form action="{{route('admin.appointments.destroy', [ 'appointment' => $appointment->id])}}" method="POST" class="d-inline delete-form">
+                                <form action="{{route('admin.customers.destroy', [ 'customer' => $customer->id])}}" method="POST" class="d-inline delete-form">
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
 
@@ -96,7 +100,7 @@
         <script>
             Swal.fire(
                 'Creado!',
-                'La cita ha sido creado con éxito.',
+                'El cliente ha sido registrado con éxito.',
                 'success'
             )
         </script>
@@ -106,7 +110,7 @@
         <script>
             Swal.fire(
                 'Actualizado!',
-                'La cita se ha actualizó con éxito.',
+                'El cliente ha sido actualizó con éxito.',
                 'success'
             )
         </script>
@@ -116,7 +120,7 @@
         <script>
             Swal.fire(
                 'Eliminado!',
-                'La cita se eliminó con éxito.',
+                'El cliente ha sido eliminado con éxito.',
                 'success'
             )
         </script>
@@ -124,7 +128,7 @@
 
     <script>
        $(document).ready(function () {
-            $('#appointments').DataTable({
+            $('#customers').DataTable({
                 responsive: true,
                 autoWidth: false
             });
@@ -133,7 +137,7 @@
                 e.preventDefault();
                 Swal.fire({
                     title: '¿Estás seguro?',
-                    text: "Esta cita se eliminara definitivamente!",
+                    text: "Si elimina este cliente todas sus citas serán removidas!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d9534f',
@@ -142,8 +146,6 @@
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
                     if (result.value) {
-                        
-
                         this.submit()
                     }
                 })

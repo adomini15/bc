@@ -16,21 +16,13 @@ class EditAppointmentForm extends Component
     public $_id;
     public $customer_id;
     // Form properties
-    public $firstname;
-    public $lastname;
-    public $email;
-    public $phone;
-    public $address;
-    public $area;
-    public $province;
-    public $comment;
     public $service_id;
     public $beautician_id;
     public $taken_date;
 
     public $pages = [
         1 => [
-            'heading' => 'Datos Personales'
+            'heading' => 'Cliente'
         ],
         2 => [
             'heading' => 'Servicio'
@@ -46,14 +38,7 @@ class EditAppointmentForm extends Component
     private function getValidationRules() {
         return [
             1 => [
-                'firstname' => ['required', 'min:3', 'max:45'],
-                'lastname' => ['required', 'min:3', 'max:75'],
-                'email' => ['required', "email", "unique:customers,email,$this->_id"],
-                'phone' => ['required', 'min:10', 'max:12'],
-                'address' => ['required', 'max:75'],
-                'province' => ['required', 'max:75'],
-                'area' => ['required', 'max:75'],
-                'comment' => ['required', 'max:255']
+                'customer_id' => ['required', 'exists:customers,id']
             ],
             2 => [
                 'service_id' => ['required', 'exists:services,id'],
@@ -69,20 +54,12 @@ class EditAppointmentForm extends Component
     public function mount($appointment) {
         $this->_id = $appointment->id;
         $this->customer_id = $appointment->customer_id;
-        $this->firstname = $appointment->customer->firstname;
-        $this->lastname = $appointment->customer->lastname;
-        $this->email = $appointment->customer->email;
-        $this->phone = $appointment->customer->phone;
-        $this->address = $appointment->customer->address;
-        $this->area = $appointment->customer->area;
-        $this->province = $appointment->customer->province;
-        $this->comment = $appointment->customer->comment;
         $this->service_id = $appointment->service_id;
         $this->beautician_id = $appointment->beautician_id;
         $this->taken_date = $appointment->taken_date;
-
         
     }
+    
     public function goToNextPage() {
         $this->validate($this->getValidationRules()[$this->currentPage]);
         $this->currentPage++;
@@ -98,25 +75,12 @@ class EditAppointmentForm extends Component
 
         $this->validate($rules);
 
-        $customer = Customer::find($this->customer_id);
-
-        $customer->firstname = $this->firstname;
-        $customer->lastname = $this->lastname;
-        $customer->email = $this->email;
-        $customer->phone = $this->phone;
-        $customer->address = $this->address;
-        $customer->area = $this->area;
-        $customer->province = $this->province;
-        $customer->comment = $this->comment;
-
-        $customer->save();
-
-
         $appointment = Appointment::find($this->_id);
 
         $appointment->taken_date = $this->taken_date;
         $appointment->beautician_id = $this->beautician_id;
         $appointment->service_id = $this->service_id;
+        $appointment->customer_id = $this->customer_id;
 
         $appointment->save();
 
@@ -131,7 +95,8 @@ class EditAppointmentForm extends Component
     {
         $services = Service::all();
         $beauticians = Beautician::all();
+        $customers = Customer::all();
 
-        return view('livewire.edit-appointment-form', compact('services', 'beauticians'));
+        return view('livewire.edit-appointment-form', compact('services', 'beauticians', 'customers'));
     }
 }

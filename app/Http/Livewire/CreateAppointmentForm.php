@@ -13,21 +13,14 @@ class CreateAppointmentForm extends Component
     public $currentPage = 1;
 
     // Form properties
-    public $firstname;
-    public $lastname;
-    public $email;
-    public $phone;
-    public $address;
-    public $area;
-    public $province;
-    public $comment;
+    public $customer_id;
     public $service_id;
     public $beautician_id;
     public $taken_date;
 
     public $pages = [
         1 => [
-            'heading' => 'Datos Personales'
+            'heading' => 'Cliente'
         ],
         2 => [
             'heading' => 'Servicio'
@@ -40,14 +33,7 @@ class CreateAppointmentForm extends Component
     // Validation Rules
     private $validationRules = [
         1 => [
-            'firstname' => ['required', 'min:3', 'max:45'],
-            'lastname' => ['required', 'min:3', 'max:75'],
-            'email' => ['required', 'email', 'unique:customers,email'],
-            'phone' => ['required', 'min:10', 'max:12'],
-            'address' => ['required', 'max:75'],
-            'province' => ['required', 'max:75'],
-            'area' => ['required', 'max:75'],
-            'comment' => ['required', 'max:255']
+            'customer_id' => ['required', 'exists:customers,id']
         ],
         2 => [
             'service_id' => ['required', 'exists:services,id'],
@@ -73,22 +59,11 @@ class CreateAppointmentForm extends Component
 
         $this->validate($rules);
 
-        $customer = Customer::create([
-            'firstname' => $this->firstname,
-            'lastname' => $this->lastname,
-            'email' => $this->email,
-            'phone' => $this->phone,
-            'address' => $this->address,
-            'area' => $this->area,
-            'province' => $this->province,
-            'comment' => $this->comment
-        ]);
-
         Appointment::create([
             'taken_date' => $this->taken_date,
             'beautician_id' => $this->beautician_id,
             'service_id' => $this->service_id,
-            'customer_id' => $customer->id
+            'customer_id' => $this->customer_id
         ]);
 
         $this->reset();
@@ -102,7 +77,8 @@ class CreateAppointmentForm extends Component
     {
         $services = Service::all();
         $beauticians = Beautician::all();
+        $customers = Customer::all();
 
-        return view('livewire.create-appointment-form', compact('services', 'beauticians'));
+        return view('livewire.create-appointment-form', compact('services', 'beauticians', 'customers'));
     }
 }

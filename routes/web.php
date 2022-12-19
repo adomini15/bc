@@ -22,6 +22,7 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])
 ->name('home');
 
+// appointments
 Route::get('/admin/appointments', [App\Http\Controllers\Admin\AppointmentsController::class, 'index'])
 ->name('admin.appointments');
 
@@ -33,4 +34,30 @@ Route::get('/admin/appointments/{appointment}/edit', [App\Http\Controllers\Admin
 
 Route::delete('/admin/appointments/{appointment}/delete', [App\Http\Controllers\Admin\AppointmentsController::class, 'destroy'])
 ->name('admin.appointments.destroy');
+
+// customers
+Route::get('/admin/customers', [App\Http\Controllers\Admin\CustomersController::class, 'index'])
+->name('admin.customers');
+
+Route::get('/admin/customers/create', [App\Http\Controllers\Admin\CustomersController::class, 'create'])
+->name('admin.customers.create');
+
+Route::get('/admin/customers/{customer}/edit', [App\Http\Controllers\Admin\CustomersController::class, 'edit'])
+->name('admin.customers.edit');
+
+Route::delete('/admin/customers/{customer}/delete', [App\Http\Controllers\Admin\CustomersController::class, 'destroy'])
+->name('admin.customers.destroy');
+
+// services
+Route::get('/admin/services', [App\Http\Controllers\Admin\ServicesController::class, 'index'])
+->name('admin.services');
+
+Route::get('/admin/services/create', [App\Http\Controllers\Admin\ServicesController::class, 'create'])
+->name('admin.services.create');
+
+Route::get('/admin/services/{service}/edit', [App\Http\Controllers\Admin\ServicesController::class, 'edit'])
+->name('admin.services.edit');
+
+Route::delete('/admin/services/{service}/delete', [App\Http\Controllers\Admin\ServicesController::class, 'destroy'])
+->name('admin.services.destroy');
 

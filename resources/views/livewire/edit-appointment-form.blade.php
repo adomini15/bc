@@ -10,94 +10,20 @@
                     <div class="row">
                      
                         @if ($currentPage == 1)
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="firstname">Nombre</label>
-                                    <input wire:model.lazy="firstname" value="{{old('firstname', $firstname)}}" type="text" class="form-control @error('firstname') is-invalid @enderror" id="firstname" name="firstname" >
-                                    <div class="invalid-feedback">
-                                        @error('firstname')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
+                            <div class="form-group">
+                                <label for="customer_id">Cliente</label>
+                                <select wire:model.lazy="customer_id" name="customer_id" id="customer_id" class="custom-select @error('customer_id') is-invalid @enderror">
+                                    <option value="" selected>-- Seleccionar cliente -- </option>    
+                                    @foreach ($customers as $customer)
+                                        <option value="{{ $customer->id }}" selected="{{ old('customer_id', $customer_id == $customer->id) }}">{{$customer->firstname}} {{$customer->lastname}} - ID: {{$customer->id}}</option>
+                                    @endforeach
+                                </select>
+                                <div class="invalid-feedback">
+                                    @error('customer_id')
+                                        {{ $message }}
+                                    @enderror
                                 </div>
-
-                                <div class="form-group">
-                                    <label for="lastname">Apellido</label>
-                                    <input wire:model.lazy="lastname" value="{{old('lastname', $lastname)}}" type="text" class="form-control @error('lastname') is-invalid @enderror" id="lastname" name="lastname" >
-                                    <div class="invalid-feedback">
-                                        @error('lastname')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="email">Correo</label>
-                                    <input wire:model.lazy="email" value="{{old('email', $email)}}" type="email" class="form-control @error('email') is-invalid @enderror" id="email" name="email" >
-                                    <div class="invalid-feedback">
-                                        @error('email')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="phone">Telefono</label>
-                                    <input wire:model.lazy="phone" value="{{old('phone', $phone)}}" type="text" class="form-control @error('phone') is-invalid @enderror" id="phone" name="phone">
-                                   
-                                    <div class="invalid-feedback">
-                                        @error('phone')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-
                                 
-                            </div>
-
-                            <div class="col">
-                                <div class="form-group">
-                                    <label for="address">Direccion</label>
-                                    <input wire:model.lazy="address" value="{{old('address', $address)}}" type="text" class="form-control @error('address') is-invalid @enderror" id="address" name="address" >
-                                    <div class="invalid-feedback">
-                                        @error('address')
-                                            {{ $message }}
-                                        @enderror
-                                   </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="province">Provincia</label>
-                                    <input wire:model.lazy="province" value="{{old('province', $province)}}" type="text" class="form-control @error('province') is-invalid @enderror" id="province" name="province" >
-                                    <div class="invalid-feedback">
-                                        @error('province')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="area">Sector</label>
-                                    <input wire:model.lazy="area" value="{{old('area', $area)}}" type="text" class="form-control @error('area') is-invalid @enderror" id="area" name="area">
-                                    <div class="invalid-feedback">
-                                        @error('area')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="comment">Comentario</label>
-                                    <textarea wire:model.lazy="comment"  class="form-control @error('comment') is-invalid @enderror" id="comment" name="comment">
-                                        {{ old('comment', $comment) }}
-                                    </textarea>
-                                    <div class="invalid-feedback">
-                                        @error('comment')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
-                                </div>
-                            
                             </div>
                     
                         @elseif ($currentPage == 2)
@@ -155,8 +81,6 @@
                 </div>
             </div>
             <div class="card-footer d-flex">
-
-            
         
                 <div class="flex-grow-1">
                     @if ($currentPage == 1)
