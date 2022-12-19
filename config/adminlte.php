@@ -293,6 +293,11 @@ return [
         // Navbar items:
 
         // Sidebar items:
+        [
+            'text' => 'Dashboard',
+            'url' => '/home',
+            'icon'  => 'fa-dashboard',
+        ],
         ['header' => 'Citas'],
         [
             'text' => 'Todas las citas',
