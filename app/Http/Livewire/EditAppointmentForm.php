@@ -123,7 +123,7 @@ class EditAppointmentForm extends Component
         $this->reset();
         $this->resetValidation();
 
-        return redirect('/admin/appointments');
+        return redirect('/admin/appointments')->with('update', 'ok');
     }
 
 

@@ -27,5 +27,11 @@ class AppointmentsController extends Controller
             'appointment' => $appointment
         ]);
     }
+
+    public function destroy(Appointment $appointment) {
+        $appointment->delete();
+
+        return redirect('/admin/appointments')->with('delete', 'ok');
+    }
  
 }

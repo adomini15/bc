@@ -94,7 +94,7 @@ class CreateAppointmentForm extends Component
         $this->reset();
         $this->resetValidation();
 
-        return redirect('/admin/appointments');
+        return redirect('/admin/appointments')->with('store', 'ok');
     }
 
 

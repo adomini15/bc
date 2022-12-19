@@ -31,3 +31,6 @@ Route::get('/admin/appointments/create', [App\Http\Controllers\Admin\Appointment
 Route::get('/admin/appointments/{appointment}/edit', [App\Http\Controllers\Admin\AppointmentsController::class, 'edit'])
 ->name('admin.appointments.edit');
 
+Route::delete('/admin/appointments/{appointment}/delete', [App\Http\Controllers\Admin\AppointmentsController::class, 'destroy'])
+->name('admin.appointments.destroy');
+
