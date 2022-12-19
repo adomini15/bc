@@ -305,13 +305,18 @@ return [
             'url' => 'admin/customers',
             'icon'  => 'fa-solid fa fa-user-hair',
         ],
+        ['header' => 'Esteticistas'],
+        [
+            'text' => 'Todos los esteticistas',
+            'url' => 'admin/beauticians',
+            'icon'  => 'fa fa-scissors',
+        ],
         ['header' => 'Servicios'],
         [
             'text' => 'Todos los servicios',
             'url' => 'admin/services',
             'icon'  => 'fa fa-scissors',
         ],
-        
     ],
 
     /*

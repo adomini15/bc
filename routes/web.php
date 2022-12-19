@@ -61,3 +61,16 @@ Route::get('/admin/services/{service}/edit', [App\Http\Controllers\Admin\Service
 Route::delete('/admin/services/{service}/delete', [App\Http\Controllers\Admin\ServicesController::class, 'destroy'])
 ->name('admin.services.destroy');
 
+// beauticians
+Route::get('/admin/beauticians', [App\Http\Controllers\Admin\BeauticiansController::class, 'index'])
+->name('admin.beauticians');
+
+Route::get('/admin/beauticians/create', [App\Http\Controllers\Admin\BeauticiansController::class, 'create'])
+->name('admin.beauticians.create');
+
+Route::get('/admin/beauticians/{beautician}/edit', [App\Http\Controllers\Admin\BeauticiansController::class, 'edit'])
+->name('admin.beauticians.edit');
+
+Route::delete('/admin/beauticians/{beautician}/delete', [App\Http\Controllers\Admin\BeauticiansController::class, 'destroy'])
+->name('admin.beauticians.destroy');
+
