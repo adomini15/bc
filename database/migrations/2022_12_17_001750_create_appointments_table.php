@@ -16,11 +16,15 @@ return new class extends Migration
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
 
-            $table->date('taken_date');
+            $table->dateTime('taken_date');
+            $table->date('confirmation_date')->nullable();
+            
             // relationship fields
             $table->foreignId('service_id')->constrained('services')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('customer_id')->constrained('customers')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('beautician_id')->constrained('beauticians')->cascadeOnDelete()->cascadeOnUpdate();
+            
+            $table->softDeletes();
             $table->timestamps();
         });
     }

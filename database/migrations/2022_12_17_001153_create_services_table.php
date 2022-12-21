@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('title', 75);
             $table->text('description');
             $table->decimal('price');
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

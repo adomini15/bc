@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Appointment;
+use App\Models\Customer;
+use App\Models\Service;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,25 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $numberOfAvailableServices = Service::all()->count();
+        $numberOfAliveCustomers = Customer::all()->count();
+        $numberOfAliveAppointments = Appointment::all()->count();
+
+        $numberOfCustomersWithTrashed = Customer::withTrashed()->count();
+        $numberOfTrashedCustomers = Customer::onlyTrashed()->count();
+        $numberOfAppointmentsWithTrashed = Appointment::withTrashed()->count();
+        $numberOfTrashedAppointments = Appointment::onlyTrashed()->count();
+        
+        $percentOfTrashedAppointments = $numberOfAppointmentsWithTrashed ?? round($numberOfTrashedAppointments / $numberOfAppointmentsWithTrashed * 100, 2);
+        $percentOfTrashedCustomers = $numberOfCustomersWithTrashed ?? round($numberOfTrashedCustomers / $numberOfCustomersWithTrashed * 100, 2);
+
+        return view('home', compact(
+            'numberOfAliveCustomers',
+            'numberOfAliveAppointments',
+            'percentOfTrashedAppointments',
+            'percentOfTrashedCustomers',
+            'numberOfAvailableServices'
+            )
+        );
     }
 }

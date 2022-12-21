@@ -7,6 +7,10 @@ use App\Models\Beautician;
 use App\Models\Customer;
 use App\Models\Service;
 use Livewire\Component;
+use Illuminate\Support\Facades\URL;
+use App\Mail\AppointmentMailable;
+use Illuminate\Support\Facades\Mail;
+
 
 class CreateAppointmentForm extends Component
 {
@@ -47,6 +51,7 @@ class CreateAppointmentForm extends Component
     public function goToNextPage() {
         $this->validate($this->validationRules[$this->currentPage]);
         $this->currentPage++;
+
     }
 
     public function goToPreviousPage() {
@@ -55,11 +60,12 @@ class CreateAppointmentForm extends Component
 
     public function submit()
     {
+        
         $rules = collect($this->validationRules)->collapse()->toArray();
 
         $this->validate($rules);
 
-        Appointment::create([
+        $appointment = Appointment::create([
             'taken_date' => $this->taken_date,
             'beautician_id' => $this->beautician_id,
             'service_id' => $this->service_id,
@@ -68,6 +74,15 @@ class CreateAppointmentForm extends Component
 
         $this->reset();
         $this->resetValidation();
+
+        $confirmationUrl = URL::temporarySignedRoute('admin.appointments.confirmed', now()->addWeek(), [
+            'appointment' => $appointment->id
+        ]);
+
+        $email = new AppointmentMailable($appointment, $confirmationUrl);
+
+        Mail::to($appointment->customer->email)->send($email);
+
 
         return redirect('/admin/appointments')->with('store', 'ok');
     }

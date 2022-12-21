@@ -66,7 +66,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label for="taken_date">Horario</label>
-                                    <input wire:model.lazy="taken_date" value="{{old('taken_date', $taken_date)}}"type="date" class="form-control @error('taken_date') is-invalid @enderror" name="taken_date"/>
+                                    <input type="datetime-local" placeholder="Seleccionar horario" wire:model.lazy="taken_date" name="taken_date" id="taken_date" value="{{old('taken_date', $taken_date)}}"  class="form-control @error('taken_date') is-invalid @enderror" />
                                     
                                     <div class="invalid-feedback">
                                         @error('taken_date')

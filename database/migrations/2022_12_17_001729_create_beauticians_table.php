@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('lastname', 75);
             $table->text('description');
          
+            $table->softDeletes();
             $table->timestamps();
         });
     }

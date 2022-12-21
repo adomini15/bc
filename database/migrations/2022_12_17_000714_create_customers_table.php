@@ -23,6 +23,8 @@ return new class extends Migration
             $table->string('province');
             $table->string('area');
             $table->text('comment');
+
+            $table->softDeletes();
             $table->timestamps();
         });
     }

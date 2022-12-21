@@ -1,5 +1,7 @@
 <div class="card">
+
     <form wire:submit.prevent="submit">
+    
         <div>
             <div class="card-body">
                 <div class="container">
@@ -8,9 +10,10 @@
                     </div>
 
                     <div class="row">
+                    
 
                         @if ($currentPage == 1)
-
+                        
                             <div class="form-group">
                                 <label for="customer_id">Cliente</label>
                                 <select wire:model.lazy="customer_id" name="customer_id" id="customer_id" class="custom-select @error('customer_id') is-invalid @enderror">
@@ -64,21 +67,26 @@
 
                         
                         @elseif ($currentPage == 3)
+                           
                             <div class="col">
                                 <div class="form-group">
-                                    <label for="taken_date">Horario</label>
-                                    <input wire:model.lazy="taken_date" type="date" class="form-control @error('taken_date') is-invalid @enderror" name="taken_date"/>
-                                    
-                                    <div class="invalid-feedback">
-                                        @error('taken_date')
-                                            {{ $message }}
-                                        @enderror
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="taken_date">Horario</label>
+                                            <input type="datetime-local" placeholder="Seleccionar horario" wire:model.lazy="taken_date" name="taken_date" id="taken_date" class="form-control @error('taken_date') is-invalid @enderror" />
+                                     
+                                            <div class="invalid-feedback">
+                                                @error('taken_date')
+                                                    {{ $message }}
+                                                @enderror
+                                            </div>
+                                        </div>
                                     </div>
+                                   
+
                                 </div>
                             </div>
                         @endif
-
-                    </div>
                 </div>
             </div>
             <div class="card-footer d-flex">

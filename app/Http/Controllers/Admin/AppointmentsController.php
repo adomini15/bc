@@ -32,5 +32,9 @@ class AppointmentsController extends Controller
 
         return redirect('/admin/appointments')->with('delete', 'ok');
     }
+    
+    public function confirmed(Appointment $appointment) {
+        return "Your appointment have been confirmed. $appointment->id";
+    }
  
 }

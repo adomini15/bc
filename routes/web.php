@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,6 +35,8 @@ Route::get('/admin/appointments/{appointment}/edit', [App\Http\Controllers\Admin
 
 Route::delete('/admin/appointments/{appointment}/delete', [App\Http\Controllers\Admin\AppointmentsController::class, 'destroy'])
 ->name('admin.appointments.destroy');
+
+Route::get('/confirmed/appointments/{appointment}', [App\Http\Controllers\Admin\AppointmentsController::class, 'confirmed'])->name('admin.appointments.confirmed')->middleware('signed');
 
 // customers
 Route::get('/admin/customers', [App\Http\Controllers\Admin\CustomersController::class, 'index'])
@@ -73,4 +76,5 @@ Route::get('/admin/beauticians/{beautician}/edit', [App\Http\Controllers\Admin\B
 
 Route::delete('/admin/beauticians/{beautician}/delete', [App\Http\Controllers\Admin\BeauticiansController::class, 'destroy'])
 ->name('admin.beauticians.destroy');
+
 
