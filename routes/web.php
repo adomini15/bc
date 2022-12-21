@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use Illuminate\Support\Facades\URL;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,7 +36,9 @@ Route::get('/admin/appointments/{appointment}/edit', [App\Http\Controllers\Admin
 Route::delete('/admin/appointments/{appointment}/delete', [App\Http\Controllers\Admin\AppointmentsController::class, 'destroy'])
 ->name('admin.appointments.destroy');
 
-Route::get('/confirmed/appointments/{appointment}', [App\Http\Controllers\Admin\AppointmentsController::class, 'confirmed'])->name('admin.appointments.confirmed')->middleware('signed');
+Route::get('/confirm/appointments/{appointment}', [App\Http\Controllers\Admin\AppointmentsController::class, 'confirm'])->name('admin.appointments.confirm')->middleware('signed');
+
+Route::post('/confirmed/appointments', [App\Http\Controllers\Admin\AppointmentsController::class, 'confirmed'])->name('admin.appointments.confirmed');
 
 // customers
 Route::get('/admin/customers', [App\Http\Controllers\Admin\CustomersController::class, 'index'])
@@ -76,5 +78,3 @@ Route::get('/admin/beauticians/{beautician}/edit', [App\Http\Controllers\Admin\B
 
 Route::delete('/admin/beauticians/{beautician}/delete', [App\Http\Controllers\Admin\BeauticiansController::class, 'destroy'])
 ->name('admin.beauticians.destroy');
-
-

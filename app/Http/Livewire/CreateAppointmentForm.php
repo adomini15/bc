@@ -75,8 +75,8 @@ class CreateAppointmentForm extends Component
         $this->reset();
         $this->resetValidation();
 
-        $confirmationUrl = URL::temporarySignedRoute('admin.appointments.confirmed', now()->addWeek(), [
-            'appointment' => $appointment->id
+        $confirmationUrl = URL::temporarySignedRoute('admin.appointments.confirm', now()->addWeek(), [
+            'appointment' => $appointment->id,
         ]);
 
         $email = new AppointmentMailable($appointment, $confirmationUrl);

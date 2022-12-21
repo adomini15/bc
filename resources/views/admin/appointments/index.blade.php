@@ -2,6 +2,7 @@
 
 @section('title', 'Administrador - Citas')
 
+
 @section('content_header')
     <div class="d-flex align-items-center justify-content-between">
         <h1>Historial de Citas</h1>

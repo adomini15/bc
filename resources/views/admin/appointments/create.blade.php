@@ -8,7 +8,6 @@
 
 @section('content')
     <livewire:create-appointment-form>
-   
 @endsection
 
 @section('css')

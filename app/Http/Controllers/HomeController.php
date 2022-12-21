@@ -37,12 +37,28 @@ class HomeController extends Controller
         $percentOfTrashedAppointments = $numberOfAppointmentsWithTrashed ?? round($numberOfTrashedAppointments / $numberOfAppointmentsWithTrashed * 100, 2);
         $percentOfTrashedCustomers = $numberOfCustomersWithTrashed ?? round($numberOfTrashedCustomers / $numberOfCustomersWithTrashed * 100, 2);
 
+        // For area chart
+        $numberOfTrashedAppointmentsForMonths = Appointment::onlyTrashed()->get()->sortBy(function($service){ 
+                return -$service->deleted_at->month; 
+            })->groupBy(function($service){ 
+                return $service->deleted_at->month; 
+            })->map->count();
+
+        $numberOfAliveAppointmentsForMonths = Appointment::all()->sortBy(function($service){ 
+                return -$service->created_at->month; 
+            })->groupBy(function($service){ 
+                return $service->created_at->month; 
+            })
+            ->map->count();
+
         return view('home', compact(
             'numberOfAliveCustomers',
             'numberOfAliveAppointments',
             'percentOfTrashedAppointments',
             'percentOfTrashedCustomers',
-            'numberOfAvailableServices'
+            'numberOfAvailableServices',
+            'numberOfTrashedAppointmentsForMonths',
+            'numberOfAliveAppointmentsForMonths'
             )
         );
     }
