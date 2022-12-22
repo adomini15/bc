@@ -6,26 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Confirmar Cita</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
 
     <div id="confirmation" class="d-none">
         <div  class="vh-100 d-flex justify-content-center align-items-center">
-            <div class="col-md-4">
+            <div class="col-md-4" data-content>
                 <div class="border border-3 border-success"></div>
                 <div class="card  bg-white shadow p-5">
-                    <div class="mb-4 text-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="text-success" width="75" height="75"
-                            fill="currentColor" class="bi bi-check-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z" />
-                            <path
-                                d="M10.97 4.97a.235.235 0 0 0-.02.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-1.071-1.05z" />
-                        </svg>
+                    <div class="mb-4 text-center text-success h1">
+                        <i class="fa-solid fa-check"></i>
                     </div>
-                    <div class="text-center">
-                        <h1>¡Confirmado!</h1>
-                        <p>Tu cita ya esta asignada en la agenda de clientes.</p>
-                        <a href="/" class="btn btn-outline-success">Ir a la página pricipal</a>
+                    <div class="text-center" data-text>
+                        <h3>¡Cancelado!</h3>
+                        <p>Tu cita ha sido cancelada.</p>
+                        <a href="/" class="btn btn-outline-success btn-sm">Ir a la página pricipal</a>
                     </div>
                 </div>
             </div>
@@ -44,7 +40,7 @@
             if("{{$isConfirmed}}") {
                 confirmation.removeClass('d-none');
             } else {
-                showModal(confirmAppointment);
+                showModal(confirmAppointment, cancelAppointment);
             }
 
             async function confirmAppointment(appointmentId) {
@@ -63,7 +59,23 @@
                 });
             }
 
-            async function showModal(done) {
+            async function cancelAppointment(appointmentId) {
+                return new Promise(function (resolve, reject) {
+                    $.ajax({
+                        url: "{{ route('admin.appointments.cancel') }}",
+                        type: "delete",
+                        data: {
+                            id: appointmentId,
+                            _token: "{{ csrf_token() }}"
+                        },
+                        dataType: "JSON",
+                        success: resolve,
+                        error: reject
+                    })
+                });
+            }
+
+            async function showModal(cbConfirm, cbCancel) {
                 try {
                     const result = await Swal.fire({
                         title: '¿Deseas confirmar esta cita?',
@@ -75,15 +87,20 @@
                         cancelButtonText: 'Cancelar',
                         imageUrl: 'https://img.freepik.com/free-vector/hand-with-pen-marking-dates-calendar-flat-vector-illustration-person-scheduling-planning-time-meetings-time-management-arrangement-concept-banner-website-design-landing-web-page_74855-26024.jpg?w=1060&t=st=1671642539~exp=1671643139~hmac=dcff18aeda79fa729b6f2aeeb0bb350eb2840fb4bba257a1716ff1fcb053fc71',
                         imageHeight: 250,
-                        showLoaderOnConfirm: true,
-                        preConfirm: async () => {
-                            return done("{{$appointmentId}}");
-                        }
+                        showLoaderOnConfirm: true
                     });
 
-                    if(result.isConfirmed) {
-                        confirmation.removeClass('d-none');
+                    if(result.value) {
+                        await cbConfirm("{{$appointmentId}}");
+                    } else {
+                        await cbCancel("{{$appointmentId}}");
+                        $('.text-success').addClass('text-danger').removeClass('text-success');
+                        $('.border-success').addClass('border-danger').removeClass('border-success');
+                        $('.btn-outline-success').addClass('btn-outline-danger').removeClass('btn-outline-success');
+                        $('.fa-check').addClass('fa-ban').removeClass('fa-check');
                     }
+
+                    confirmation.removeClass('d-none');
 
                 } catch (error) {
                     console.log(error);

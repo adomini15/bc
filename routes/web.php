@@ -40,6 +40,8 @@ Route::get('/confirm/appointments/{appointment}', [App\Http\Controllers\Admin\Ap
 
 Route::post('/confirmed/appointments', [App\Http\Controllers\Admin\AppointmentsController::class, 'confirmed'])->name('admin.appointments.confirmed');
 
+Route::delete('/cancel/appointments/', [App\Http\Controllers\Admin\AppointmentsController::class, 'cancel'])->name('admin.appointments.cancel');
+
 // customers
 Route::get('/admin/customers', [App\Http\Controllers\Admin\CustomersController::class, 'index'])
 ->name('admin.customers');

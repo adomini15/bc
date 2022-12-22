@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use Carbon\Carbon;
 use DateTimeZone;
-use Illuminate\Http\Client\Request;
 
 class AppointmentsController extends Controller
 {
@@ -41,7 +40,6 @@ class AppointmentsController extends Controller
         $appointmentId = $appointment->id;
 
         return view('admin.appointments.confirm', compact('isConfirmed', 'appointmentId'));
-        
     }
 
     public function confirmed() {
@@ -51,7 +49,17 @@ class AppointmentsController extends Controller
 
          $appointment->confirmation_date = Carbon::now(new DateTimeZone("America/Santo_Domingo"));
 
+         $appointment->save();
+
          return response()->json([ "appointment" => $appointment], 200);
+    }
+
+    public function cancel() {
+        $id = +request()->all()['id'];
+
+        Appointment::find($id)->delete();
+
+        return response()->noContent();
     }
  
 }
