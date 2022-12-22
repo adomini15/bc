@@ -80,3 +80,14 @@ Route::get('/admin/beauticians/{beautician}/edit', [App\Http\Controllers\Admin\B
 
 Route::delete('/admin/beauticians/{beautician}/delete', [App\Http\Controllers\Admin\BeauticiansController::class, 'destroy'])
 ->name('admin.beauticians.destroy');
+
+// Notifications
+
+Route::get('/admin/notifications', [App\Http\Controllers\Admin\NotificationsController::class, 'index'])
+->name('admin.notifications.index');
+
+Route::get('/admin/notifications/mark_as_read', [App\Http\Controllers\Admin\NotificationsController::class, 'markAsRead'])
+->name('admin.notifications.markAsRead');
+
+Route::post('/admin/notifications/mark_notifications', [App\Http\Controllers\Admin\NotificationsController::class, 'markNotifications'])
+->name('admin.notifications.markNotifications');

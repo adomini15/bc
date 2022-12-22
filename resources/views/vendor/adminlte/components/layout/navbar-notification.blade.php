@@ -73,7 +73,7 @@
 
         // Periodically update the notification.
 
-        setInterval(updateNotification, {{ $makeUpdatePeriod() }}, nLink);
+        setInterval(updateNotification, "{{ $makeUpdatePeriod() }}", nLink);
     })
 
 </script>

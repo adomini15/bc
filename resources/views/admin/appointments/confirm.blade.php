@@ -18,9 +18,9 @@
                     <div class="mb-4 text-center text-success h1">
                         <i class="fa-solid fa-check"></i>
                     </div>
-                    <div class="text-center" data-text>
-                        <h3>¡Cancelado!</h3>
-                        <p>Tu cita ha sido cancelada.</p>
+                    <div class="text-center">
+                        <h3>¡Confirmada!</h3>
+                        <p>Tu cita ya se encuentra confirmada en nuestra agenta.</p>
                         <a href="/" class="btn btn-outline-success btn-sm">Ir a la página pricipal</a>
                     </div>
                 </div>
@@ -98,6 +98,8 @@
                         $('.border-success').addClass('border-danger').removeClass('border-success');
                         $('.btn-outline-success').addClass('btn-outline-danger').removeClass('btn-outline-success');
                         $('.fa-check').addClass('fa-ban').removeClass('fa-check');
+                        $('h3').text('!Cancelado!');
+                        $('p').text('Tu cita ha sido cancelada');
                     }
 
                     confirmation.removeClass('d-none');

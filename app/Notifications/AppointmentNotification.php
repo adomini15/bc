@@ -58,7 +58,7 @@ class AppointmentNotification extends Notification
         return [
             'id' => $this->appointment->id,
             'customer' => $this->appointment->customer->firstname . ' ' . $this->appointment->customer->lastname,
-            'taken_date' => $this->appointment->taken_date->diffForHumans(),
+            'taken_date' => Carbon::parse($this->appointment->taken_date)->diffForHumans(),
             'time' => Carbon::now()->diffForHumans(),
             'title' => $this->appointment->service->title,
             'description' => $this->appointment->service->description,

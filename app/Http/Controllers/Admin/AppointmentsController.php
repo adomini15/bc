@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Events\AppointmentEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Appointment;
 use Carbon\Carbon;
@@ -50,6 +51,8 @@ class AppointmentsController extends Controller
          $appointment->confirmation_date = Carbon::now(new DateTimeZone("America/Santo_Domingo"));
 
          $appointment->save();
+
+         event(new AppointmentEvent($appointment));
 
          return response()->json([ "appointment" => $appointment], 200);
     }

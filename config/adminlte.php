@@ -298,6 +298,11 @@ return [
             'url' => '/home',
             'icon'  => 'fa-dashboard',
         ],
+        [
+            'text' => 'Notificaciones',
+            'url' => 'admin/notifications',
+            'icon'  => 'fa fa-envelope',
+        ],
         ['header' => 'Citas'],
         [
             'text' => 'Todas las citas',
@@ -322,6 +327,7 @@ return [
             'url' => 'admin/services',
             'icon'  => 'fa fa-scissors',
         ],
+       
     ],
 
     /*
