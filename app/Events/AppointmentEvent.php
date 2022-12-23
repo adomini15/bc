@@ -3,15 +3,12 @@
 namespace App\Events;
 
 use App\Models\Appointment;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class AppointmentEvent implements ShouldBroadcast
+class AppointmentEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     public $appointment;
@@ -33,6 +30,6 @@ class AppointmentEvent implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('channel-name');
+        return new PrivateChannel('private-channel');
     }
 }

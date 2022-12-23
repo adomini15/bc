@@ -14,7 +14,16 @@
 @section('content_top_nav_right')
 
 
-    <li class="nav-item dropdown">
+    <appointment-notifications user_id={{auth()->user()->id}} read_notifications="{{auth()->user()->unreadNotifications}}" unread_notifications="{{auth()->user()->unreadNotifications}}"></appointment-notifications>
+    
+    {{-- <appointment-notifications 
+    user_id={{auth()->user()->id}} 
+    :notifications="setJson({
+        read: @json({{auth()->user()->unreadNotifications}}),
+        unread: @json({{auth()->user()->unreadNotifications}})
+    })"
+></appointment-notifications> --}}
+    {{-- <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#" aria-expanded="false">
             <i class="far fa-bell"></i>
         
@@ -55,7 +64,7 @@
             <div class="dropdown-divider"></div>
             <a href="{{ route('admin.notifications.markAsRead') }}" class="dropdown-item dropdown-footer">Marcar como leidas</a>
         </div>
-    </li>
+    </li> --}}
 
 @endsection
 

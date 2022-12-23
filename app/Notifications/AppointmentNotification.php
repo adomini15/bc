@@ -5,10 +5,11 @@ namespace App\Notifications;
 use App\Models\Appointment;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class AppointmentNotification extends Notification
+class AppointmentNotification extends Notification implements ShouldBroadcast
 {
     use Queueable;
 
@@ -30,8 +31,28 @@ class AppointmentNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database', 'broadcast'];
     }
+
+    /**
+     * Get the array representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return array
+     */
+    public function toArray($notifiable)
+    {
+        return [
+            'id' => $this->appointment->id,
+            'customer' => $this->appointment->customer->firstname . ' ' . $this->appointment->customer->lastname,
+            'taken_date' => Carbon::parse($this->appointment->taken_date)->diffForHumans(),
+            'time' => $notifiable->created_at,
+            'title' => $this->appointment->service->title,
+            'description' => $this->appointment->service->description,
+            'beautician' => $this->appointment->beautician->firstname . ' ' . $this->appointment->beautician->lastname,
+        ];
+    }
+
 
     /**
      * Get the mail representation of the notification.
@@ -47,22 +68,5 @@ class AppointmentNotification extends Notification
                     ->line('Thank you for using our application!');
     }
 
-    /**
-     * Get the array representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return array
-     */
-    public function toArray($notifiable)
-    {
-        return [
-            'id' => $this->appointment->id,
-            'customer' => $this->appointment->customer->firstname . ' ' . $this->appointment->customer->lastname,
-            'taken_date' => Carbon::parse($this->appointment->taken_date)->diffForHumans(),
-            'time' => Carbon::now()->diffForHumans(),
-            'title' => $this->appointment->service->title,
-            'description' => $this->appointment->service->description,
-            'beautician' => $this->appointment->beautician->firstname . ' ' . $this->appointment->beautician->lastname,
-        ];
-    }
+    
 }

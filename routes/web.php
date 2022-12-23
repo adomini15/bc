@@ -1,7 +1,8 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\URL;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -86,7 +87,7 @@ Route::delete('/admin/beauticians/{beautician}/delete', [App\Http\Controllers\Ad
 Route::get('/admin/notifications', [App\Http\Controllers\Admin\NotificationsController::class, 'index'])
 ->name('admin.notifications.index');
 
-Route::get('/admin/notifications/mark_as_read', [App\Http\Controllers\Admin\NotificationsController::class, 'markAsRead'])
+Route::get('/admin/notifications/mark-as-read', [App\Http\Controllers\Admin\NotificationsController::class, 'markAsRead'])
 ->name('admin.notifications.markAsRead');
 
 Route::post('/admin/notifications/mark_notifications', [App\Http\Controllers\Admin\NotificationsController::class, 'markNotifications'])

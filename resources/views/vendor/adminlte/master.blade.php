@@ -74,13 +74,15 @@
         <meta name="msapplication-TileImage" content="{{ asset('favicon/ms-icon-144x144.png') }}">
     @endif
 
+    @vite(['resources/js/app.js'])
 </head>
 
 <body class="@yield('classes_body')" @yield('body_data')>
 
-    {{-- Body Content --}}
-    @yield('body')
-
+    <div id="app">
+        {{-- Body Content --}}
+        @yield('body')
+    </div>
     {{-- Base Scripts --}}
     @if(!config('adminlte.enabled_laravel_mix'))
         <script src="{{ asset('vendor/jquery/jquery.min.js') }}"></script>
