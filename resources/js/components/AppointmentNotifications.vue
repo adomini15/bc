@@ -93,7 +93,6 @@ export default {
 
         window.Echo.private(`App.Models.User.${this.user_id}`).notification(
             (notification) => {
-                console.log(notification);
                 this.unread.unshift({
                     data: {
                         ...notification,

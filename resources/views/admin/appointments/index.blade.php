@@ -13,30 +13,24 @@
     </div>
 @stop
 
-@section('css')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.0/css/responsive.bootstrap4.min.css">
-@endsection
-
 @section('content')
     <div class="card">
         <div class="card-body">
-            <table class="table table-striped table-bordered" id="appointments">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Nombre del Cliente</th>
-                        <th>Telefono</th>
-                        <th>Fecha de Cita</th>
-                        <th>Hora de Cita</th>
-                        <th>Tipo de Cita</th>
-                        <th>Accion</th>
-                    </tr>
-                </thead>
+            @php
+                $heads = [
+                    "ID",
+                    "Nombre del Cliente",
+                    "Telefono",
+                    "Fecha de Cita",
+                    "Hora de Cita",
+                    "Tipo de Cita",
+                    ['label' => 'Acciones', 'no-export' => true, 'width' => 5],
+                ];
+            @endphp
 
-                <tbody>
-                    @foreach ($appointments as $appointment)
+            <x-adminlte-datatable id="appointments-table" :heads="$heads" class="bg-light" striped hoverable with-buttons>
+                
+                @foreach($appointments as $appointment)
                     <tr>
                         <td>
                             {{ $appointment->id }}
@@ -61,8 +55,7 @@
                                 <a href="/admin/appointments/{{$appointment->id}}/edit" class="btn btn-info btn-sm">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                         
-                         
+                        
                                 <form action="{{route('admin.appointments.destroy', [ 'appointment' => $appointment->id])}}" method="POST" class="d-inline delete-form">
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
@@ -71,28 +64,17 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </form>
-                                    
-                               
                             </div>
                         </td>
                     </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                @endforeach
+            </x-adminlte-datatable>
         </div>
     </div>
 
 @endsection
 
 @section('js')
-    
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.15/dist/sweetalert2.all.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.0/js/dataTables.responsive.min.js"></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.0/js/responsive.bootstrap4.min.js"></script>
-
-
     @if (session('store') == 'ok')
         <script>
             Swal.fire(
@@ -125,11 +107,6 @@
 
     <script>
        $(document).ready(function () {
-            $('#appointments').DataTable({
-                responsive: true,
-                autoWidth: false
-            });
-
             $('.delete-form').submit(function(e) {
                 e.preventDefault();
                 Swal.fire({
@@ -143,8 +120,6 @@
                     cancelButtonText: 'Cancelar'
                 }).then((result) => {
                     if (result.value) {
-                        
-
                         this.submit()
                     }
                 })
